@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASHC Ad Fundum — Amsterdams Studenten Hockey Club</title>
+<title>ASHC Ad Fundum — Amsterdamse Studenten Hockey Club (ASHC)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -867,7 +867,7 @@
   }
 
   .faq-answer.open {
-    max-height: 400px;
+    max-height: 2000px;
     padding: 0 1.8rem 1.4rem;
   }
 
@@ -1133,7 +1133,7 @@
   <div class="hero-content">
     <div class="hero-overline">Amsterdam · Opgericht 2026</div>
     <h1 class="hero-title">ASHC<br><em>Ad Fundum</em></h1>
-    <p class="hero-subtitle-latin">Amsterdams Studenten Hockey Club</p>
+    <p class="hero-subtitle-latin">Amsterdamse Studenten Hockey Club (ASHC)</p>
     <div class="hero-divider"></div>
     <p class="hero-desc">De eerste studentenhockeyclub van Amsterdam.<br>Andere verenigingen hebben geschiedenis. Wij schrijven 'm.<br><br>Hockey. Borrels. Vrienden voor het leven.</p>
 
@@ -1143,8 +1143,8 @@
     </div>
 	
 	<div class="hero-incentives">
-      <span class="incentive-badge">🎁 Gratis clubshirt — april actie</span>
-      <span class="incentive-badge">👥 Teams (16+) betalen geen inschrijfkosten</span>
+      <a href="#incentives" class="incentive-badge" style="text-decoration:none;">🎁 Gratis clubshirt — april actie</a>
+      <a href="#incentives" class="incentive-badge" style="text-decoration:none;">👥 Teams (16+) betalen geen inschrijfkosten</a>
     </div>
 
     
@@ -1167,7 +1167,7 @@
     <p style="text-align:center; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px; color:var(--gold); margin-bottom:2.5rem; text-transform:uppercase;">⬥ Beperkte plekken beschikbaar ⬥ Early access ⬥ Founding members</p>
 
     <div class="mc-form-wrap">
-      <form action="https://hcamvj.us11.list-manage.com/subscribe/post?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&f_id=00399ee0f0" method="post" target="_blank" class="mc-form">
+      <form action="https://hcamvj.us11.list-manage.com/subscribe/post?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&f_id=00399ee0f0" method="post" target="_blank" class="mc-form" id="mc-embedded-subscribe-form">
         <div class="form-row">
           <input type="text" name="FNAME" placeholder="Voornaam" required>
           <input type="text" name="LNAME" placeholder="Achternaam" required>
@@ -1235,7 +1235,7 @@
         </div>
         <div class="fact-item">
           <div class="fact-number">#1</div>
-          <div class="fact-label">Student hockeyclub</div>
+          <div class="fact-label">Studenten hockeyclub</div>
         </div>
       </div>
     </div>
@@ -1263,11 +1263,16 @@
 <section id="training">
   <div class="section-inner">
     <div class="reveal">
-      <div class="section-label">Trainingstijden</div>
+      <div class="section-label">Weekplanning</div>
       <h2 class="section-title">Wanneer we op het <em>veld</em> staan</h2>
     </div>
     <div class="training-grid">
       <div class="training-schedule reveal">
+        <div class="schedule-row">
+          <div class="schedule-day">Dinsdag</div>
+          <div class="schedule-time">19:00 – 20:30</div>
+          <div class="schedule-type">Competitief</div>
+        </div>
         <div class="schedule-row">
           <div class="schedule-day">Donderdag</div>
           <div class="schedule-time">19:00 – 20:30</div>
@@ -1570,7 +1575,7 @@
     <div class="contact-grid reveal">
       <div class="contact-brand">
         <div class="brand-name">ASHC Ad Fundum</div>
-        <div class="brand-sub">Amsterdams Studenten Hockey Club</div>
+        <div class="brand-sub">Amsterdamse Studenten Hockey Club (ASHC)</div>
         <p>De eerste studentenhockeyvereniging van Amsterdam, opgericht in 2026. In samenwerking met <a href="https://www.hcamvj.nl/" target="_blank" style="color:#c9a84c;">AMVJ</a>.</p>
       </div>
       <div class="contact-col">
@@ -1614,7 +1619,16 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  // ── FAQ TOGGLE ──
+  // ── FORM REDIRECT ──
+  var mcForm = document.getElementById('mc-embedded-subscribe-form');
+  if (mcForm) {
+    mcForm.addEventListener('submit', function() {
+      setTimeout(function() {
+        window.location.href = '/bedankt.html';
+      }, 800);
+    });
+  }
+
   function toggleFaq(el) {
     const answer = el.nextElementSibling;
     const isOpen = answer.classList.contains('open');

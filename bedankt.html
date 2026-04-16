@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASHC Ad Fundum — Je staat op de wachtlijst</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #1e3d1a;
+    --green-mid:    #2d5a27;
+    --green-light:  #6b7f4a;
+    --green-pale:   #eaf2e8;
+    --copper:       #8b4513;
+    --gold:         #c9a84c;
+    --gold-light:   #e8d5a0;
+    --cream:        #f5f0e8;
+    --black:        #0e1a0c;
+    --white:        #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  .hero-bg {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(45, 90, 39, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 70%, rgba(139, 69, 19, 0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #0e1a0c 0%, #111f0f 50%, #0a1208 100%);
+    z-index: -1;
+  }
+
+  .hero-circle {
+    position: fixed;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 76, 0.08);
+    z-index: -1;
+  }
+  .hero-circle-1 { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .hero-circle-2 { width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-color: rgba(201,168,76,0.05); }
+  .hero-circle-3 { width: 1050px; height: 1050px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-color: rgba(201,168,76,0.03); }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    background: rgba(14, 26, 12, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo-emblem {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+  }
+
+  .content {
+    position: relative;
+    text-align: center;
+    max-width: 680px;
+    padding: 2rem 2rem;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .overline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .overline::before,
+  .overline::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+
+  .body-text {
+    font-size: 1.1rem;
+    color: rgba(245, 240, 232, 0.75);
+    max-width: 520px;
+    margin: 0 auto 1.2rem;
+    line-height: 1.85;
+  }
+
+  .exclusivity {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 1.8rem 0 2.2rem;
+  }
+
+  .btn-instagram {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 15px 36px;
+    text-decoration: none;
+    border: 2px solid var(--gold);
+    transition: all 0.3s;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  .btn-instagram:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+
+  .back-link {
+    display: block;
+    margin-top: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.35);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover { color: var(--gold); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .content { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-bg"></div>
+<div class="hero-circle hero-circle-1"></div>
+<div class="hero-circle hero-circle-2"></div>
+<div class="hero-circle hero-circle-3"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-emblem">AF</div>
+    <span class="nav-logo-text">ASHC Ad Fundum</span>
+  </a>
+</nav>
+
+<div class="content">
+  <div class="overline">Amsterdam · SHC</div>
+  <h1 class="headline">Je staat op de<br><em>wachtlijst 🔥</em></h1>
+  <div class="divider"></div>
+  <p class="body-text">
+    Gefeliciteerd — je bent erbij. We hebben je aanmelding ontvangen en voegen je toe aan onze wachtlijst.
+  </p>
+  <p class="body-text">
+    De officiële inschrijvingen openen binnenkort. Als een van de eersten ontvang jij als eerste het nieuws — en maak je de meeste kans op een plek.
+  </p>
+  <p class="exclusivity">⬥ Beperkte plekken beschikbaar &nbsp;·&nbsp; Jij bent er vroeg bij ⬥</p>
+  <a href="https://instagram.com/ashc_adfundum" target="_blank" class="btn-instagram">📸 Volg ons op Instagram</a>
+  <a href="index.html" class="back-link">← Terug naar de website</a>
+</div>
+
+</body>
+</html>
