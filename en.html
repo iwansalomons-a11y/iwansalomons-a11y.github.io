@@ -1155,7 +1155,7 @@
     <p style="text-align:center; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px; color:var(--gold); margin-bottom:2.5rem; text-transform:uppercase;">⬥ Limited spots available ⬥ Early access ⬥ Founding members</p>
 
     <div class="mc-form-wrap">
-      <form action="https://hcamvj.us11.list-manage.com/subscribe/post?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&f_id=00399ee0f0" method="post" class="mc-form" id="mc-embedded-subscribe-form">
+      <form class="mc-form" id="mc-embedded-subscribe-form" novalidate>
         <div class="form-row">
           <input type="text" name="FNAME" placeholder="First name" required>
           <input type="text" name="LNAME" placeholder="Last name" required>
@@ -1169,7 +1169,8 @@
         <div class="mc-honeypot">
           <input type="text" name="b_2ffb22b328b8dfcd40567f58d_e1ba2d1b44" tabindex="-1" value="">
         </div>
-        <button type="submit">Join the waitlist</button>
+        <div id="mc-form-msg-en" style="display:none; margin-bottom:1rem; font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:1px;"></div>
+        <button type="submit" id="mc-submit-en">Join the waitlist</button>
       </form>
     </div>
   </div>
@@ -1607,13 +1608,61 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  // ── FORM REDIRECT ──
+  // ── FORM AJAX SUBMIT ──
   var mcForm = document.getElementById('mc-embedded-subscribe-form');
   if (mcForm) {
-    mcForm.addEventListener('submit', function() {
-      setTimeout(function() {
-        window.location.href = '/thank-you.html';
-      }, 800);
+    mcForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var btn = document.getElementById('mc-submit-en');
+      var msg = document.getElementById('mc-form-msg-en');
+
+      var email = form.querySelector('[name="EMAIL"]').value;
+      var fname = form.querySelector('[name="FNAME"]').value;
+      var lname = form.querySelector('[name="LNAME"]').value;
+      var gdpr = form.querySelector('[name="gdpr[46842]"]').checked;
+
+      if (!email || !fname || !lname || !gdpr) {
+        msg.style.display = 'block';
+        msg.style.color = '#c9a84c';
+        msg.textContent = 'Please fill in all required fields.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      var data = new FormData(form);
+      var params = new URLSearchParams();
+      for (var pair of data.entries()) {
+        params.append(pair[0], pair[1]);
+      }
+
+      var url = 'https://hcamvj.us11.list-manage.com/subscribe/post-json?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&f_id=00399ee0f0&c=?';
+      var script = document.createElement('script');
+      var callbackName = 'mcCallback_' + Date.now();
+
+      window[callbackName] = function(response) {
+        document.body.removeChild(script);
+        delete window[callbackName];
+        if (response.result === 'success') {
+          window.location.href = '/thank-you.html';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Join the waitlist';
+          msg.style.display = 'block';
+          msg.style.color = '#c9a84c';
+          var errText = response.msg || 'Something went wrong. Please try again.';
+          if (errText.indexOf('already subscribed') !== -1) {
+            window.location.href = '/thank-you.html';
+          } else {
+            msg.textContent = errText.replace(/<[^>]+>/g, '');
+          }
+        }
+      };
+
+      script.src = url + '&' + params.toString() + '&c=' + callbackName;
+      document.body.appendChild(script);
     });
   }
 
