@@ -1167,22 +1167,25 @@
     <p style="text-align:center; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px; color:var(--gold); margin-bottom:2.5rem; text-transform:uppercase;">⬥ Beperkte plekken beschikbaar ⬥ Early access ⬥ Founding members</p>
 
     <div class="mc-form-wrap">
-      <form class="mc-form" id="mc-embedded-subscribe-form" novalidate>
+      <form action="https://hcamvj.us11.list-manage.com/subscribe/post?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&v_id=4943&f_id=003b9ee0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="mc-form validate" target="_self" novalidate="">
         <div class="form-row">
-          <input type="text" name="FNAME" placeholder="Voornaam" required>
-          <input type="text" name="LNAME" placeholder="Achternaam" required>
+          <input type="text" name="FNAME" placeholder="Voornaam" id="mce-FNAME" value="">
+          <input type="text" name="LNAME" placeholder="Achternaam" id="mce-LNAME" class="required" required value="">
         </div>
-        <input type="email" name="EMAIL" placeholder="E-mailadres" required>
-        <input type="tel" name="PHONE" placeholder="Telefoonnummer (optioneel)">
+        <input type="email" name="EMAIL" placeholder="E-mailadres" id="mce-EMAIL" class="required email" required value="">
+        <input type="tel" name="PHONE" placeholder="Telefoonnummer (optioneel)" id="mce-PHONE" value="">
         <label>
-          <input type="checkbox" name="gdpr[46842]" value="Y" required>
-          Ik wil updates ontvangen van ASHC Ad Fundum
+          <input type="checkbox" name="gdpr[46842]" value="Y" id="gdpr_46842" class="gdpr">
+          Ik wil updates ontvangen van ASHC Ad Fundum over lidmaatschap, teams en activiteiten.
         </label>
-        <div class="mc-honeypot">
+        <div aria-hidden="true" style="position:absolute; left:-5000px;">
           <input type="text" name="b_2ffb22b328b8dfcd40567f58d_e1ba2d1b44" tabindex="-1" value="">
         </div>
-        <div id="mc-form-msg-nl" style="display:none; margin-bottom:1rem; font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:1px;"></div>
-        <button type="submit" id="mc-submit-nl">Schrijf je in</button>
+        <div id="mce-responses">
+          <div id="mce-error-response" style="display:none;"></div>
+          <div id="mce-success-response" style="display:none;"></div>
+        </div>
+        <button type="submit" name="subscribe" id="mc-embedded-subscribe">Schrijf je in</button>
       </form>
     </div>
   </div>
@@ -1620,62 +1623,13 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  // ── FORM AJAX SUBMIT ──
+  // ── FORM REDIRECT ──
   var mcForm = document.getElementById('mc-embedded-subscribe-form');
   if (mcForm) {
-    mcForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var form = this;
-      var btn = document.getElementById('mc-submit-nl');
-      var msg = document.getElementById('mc-form-msg-nl');
-
-      // Basic validation
-      var email = form.querySelector('[name="EMAIL"]').value;
-      var fname = form.querySelector('[name="FNAME"]').value;
-      var lname = form.querySelector('[name="LNAME"]').value;
-      var gdpr = form.querySelector('[name="gdpr[46842]"]').checked;
-
-      if (!email || !fname || !lname || !gdpr) {
-        msg.style.display = 'block';
-        msg.style.color = '#c9a84c';
-        msg.textContent = 'Vul alle verplichte velden in.';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Bezig...';
-
-      var data = new FormData(form);
-      var params = new URLSearchParams();
-      for (var pair of data.entries()) {
-        params.append(pair[0], pair[1]);
-      }
-
-      var url = 'https://hcamvj.us11.list-manage.com/subscribe/post-json?u=2ffb22b328b8dfcd40567f58d&id=e1ba2d1b44&f_id=00399ee0f0&c=?';
-      var script = document.createElement('script');
-      var callbackName = 'mcCallback_' + Date.now();
-
-      window[callbackName] = function(response) {
-        document.body.removeChild(script);
-        delete window[callbackName];
-        if (response.result === 'success') {
-          window.location.href = '/bedankt.html';
-        } else {
-          btn.disabled = false;
-          btn.textContent = 'Schrijf je in';
-          msg.style.display = 'block';
-          msg.style.color = '#c9a84c';
-          var errText = response.msg || 'Er ging iets mis. Probeer opnieuw.';
-          if (errText.indexOf('already subscribed') !== -1 || errText.indexOf('al ingeschreven') !== -1) {
-            window.location.href = '/bedankt.html';
-          } else {
-            msg.textContent = errText.replace(/<[^>]+>/g, '');
-          }
-        }
-      };
-
-      script.src = url + '&' + params.toString() + '&c=' + callbackName;
-      document.body.appendChild(script);
+    mcForm.addEventListener('submit', function() {
+      setTimeout(function() {
+        window.location.href = '/bedankt.html';
+      }, 1500);
     });
   }
 
